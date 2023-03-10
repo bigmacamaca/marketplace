@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}
+<title>Cart</title>
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+    <h2>Welcome {{user.first_name}}</h2>
+{% else %}
+    <h2>Please login</h2>
+{% endif %}
+<h1>Cart</h1>
+<div id="cartProductDisplay" class="row">
+
+</div>
+
+<button type="button" class="btn btn-dark" id="checkoutButton" value= {{request.user.id}}>Checkout</button>
+<div class="row">
+    <p id="totalPriceDisplay"></p>
+</div>
+<script type="text/javascript" src="{% static 'cart/cart.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}
+<title>Product Details</title>
+{% endblock %}
+{% block content %}
+<h1>Product Details</h1>
+<p hidden id="userID">{{request.user.id}}</p>
+<br><br>
+{% comment %} <div class='container' id="bookDetailDisplay" style="justify-content: center; align-items: center;">
+</div> {% endcomment %}
+
+<div class='container' id="productDetailDisplay">
+
+    <div>
+        {% if user.is_authenticated %}
+
+        <div class="modal fade" id="addCartModal" tabindex="-1" role="dialog" aria-labelledby="addCartModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add to Cart</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCartForm">
+                    <div class="form-group">
+                        <label for="cart_quantity" class="col-form-label">Quantity:</label>
+                        <input type="number" class="form-control" id="cart_quantity" ></input>
+                    </div>
+
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary" value="Add to Cart">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </form>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        {% else %}
+            <p>You must log in to buy and wishlist products.</p>
+        {% endif %}
+    </div>
+</div>
+
+<br>
+
+<h3>Reviews</h3>
+<div class='container' id="commentsDisplay">
+
+</div>
+
+<div class='container'>
+    <h5>Add Review</h5>
+    {% if user.is_authenticated %}
+        <p>Reviewing as <strong>{{user.first_name}} {{user.last_name}}</strong></p>
+        <form id="CommentForm">
+            <div class="mb-3">
+                <label for="InputComment" class="form-label"></label>     
+                <input class="form-control" id="body" type="text" name="body">
+            </div>
+            <input type="submit" name="submit" value="Add Review">
+        </form>
+    {% else %}
+        <p>You are not logged in. You must log in to comment and modify own products.</p>
+        <a href="{% url 'users:login' %}">Log In</a>
+    {% endif %}
+</div>
+
+<br>
+<button type="button" id="deleteButton">Delete Product</button>
+<br>
+
+
+{% endblock %}
+
+{% block extra_script %}
+<script type="text/javascript" src="{% static 'market/product_details.js' %}"></script>
+{% endblock %}
+

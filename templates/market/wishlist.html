@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}
+<title>Wishlist</title>
+{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+    <h2>Welcome {{user.first_name}}</h2>
+{% else %}
+    <h2>Please login</h2>
+{% endif %}
+<h1>Wishlist</h1>
+<div id="wishlistDisplay" class="row">
+
+</div>
+
+<script type="text/javascript" src="{% static 'market/wishlist.js' %}"></script>
+{% endblock %}

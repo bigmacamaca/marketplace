@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Update Profile</h1>
+
+<div class='container' style="justify-content: center; align-items: center;">
+    <div class="position-relative">
+        <form id="profileUpdateForm">
+            <div class="mb-3">
+                <label for="InputFirstName" class="form-label">First Name: </label>
+                <input class="form-control" id="first_name" type="text" name="first_name">
+            </div>
+            <div class="mb-3">
+                <label for="InputLastName" class="form-label">Last Name: </label>
+                <input class="form-control" id="last_name" type="text" name="last_name">
+            </div>
+            <div class="mb-3">
+                <label for="InputAvatar" class="form-label">Profile Picture: </label>
+                <input class="form-control" id="avatar" type="file" name="avatar">
+            </div>
+            <input type="submit" name="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript" src="{% static 'users/update_profile.js' %}"></script>
+{% endblock %}
