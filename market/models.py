@@ -20,7 +20,7 @@ class Product(models.Model):
     seller = models.ForeignKey(CustomUser, on_delete = models.CASCADE, blank=True, null = True)
     picture = models.ImageField(blank=True, null=True, default='defaultProductImage.png', upload_to='products_images')
     averageRating = models.FloatField(default=0)
-    availabilty = models.CharField(max_length = 30, choices = AVAILABILITY_CHOICES, default='Available')
+    availability = models.CharField(max_length = 30, choices = AVAILABILITY_CHOICES, default='Available')
     quantity = models.IntegerField(default=0)
     users_wishlist = models.ManyToManyField(CustomUser, related_name ="users_wishlist", blank=True)
 
@@ -32,8 +32,11 @@ class Product(models.Model):
     
     def availability_check(self):
         if self.quantity <= 0:
-            self.availabilty = 'Unavailable'
+            self.availability = 'Unavailable'
+        else:
+            self.availability = 'Available'
         self.save()
+        print(f"availability_check called for product {self.name}, quantity={self.quantity}, availability={self.availability}")
 
 class Review(models.Model):
     product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)

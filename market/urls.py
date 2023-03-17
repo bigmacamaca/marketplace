@@ -18,9 +18,9 @@ urlpatterns = [
     path('api/get_searchResult/', apis.ProductViewSet.as_view({'get':'get_searchResult'})),
 
     #Review API
-    path('api/get_comment_Object/<int:product_id>/', apis.ReviewViewSet.as_view({'get':'get_comment_Object'})),
-    path('api/get_product_comments/<int:product_id>/', apis.ReviewViewSet.as_view({'get':'get_product_comments'})),
-    path('api/add_comment/<int:product_id>/', apis.ReviewViewSet.as_view({'post':'add_comment'})),
+    # path('api/get_comment_Object/<int:product_id>/', apis.ReviewViewSet.as_view({'get':'get_comment_Object'})),
+    # path('api/get_product_comments/<int:product_id>/', apis.ReviewViewSet.as_view({'get':'get_product_comments'})),
+    # path('api/add_comment/<int:product_id>/', apis.ReviewViewSet.as_view({'post':'add_comment'})),
 
     #Views urls
     path('registerProduct/', views.RegisterProductView.as_view(), name="registerProduct"),

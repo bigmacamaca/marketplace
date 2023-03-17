@@ -83,7 +83,7 @@ function displaySearchResults(data) {
                     "<p class='card-text'><small class='text-muted'>"+ value.seller +"</small></p>" +
                     "<p class='card-text'>"+ value.description +"</p>" +
                     "<p class='card-text'>"+ value.productType +"</p>" +
-                    "<p class='card-text'>"+ value.availabilty +"</p>" +
+                    "<p class='card-text'>"+ value.availability +"</p>" +
                     "<p class='card-text'>₱"+ value.price +"</p>" +
                     "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
 
@@ -146,24 +146,48 @@ var csrftoken = getCookie('csrftoken');
 function displayProducts(data) {
     var base_url = window.location.origin
     let template = "";
+    let unavailable = "";
     $.each(data, function(index, value) {
+        is_available = value.availability
+        console.log(is_available)
         console.log(value)
-        template += 
 
-        "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12'>" +
-            "<div class='box card'>" +
-                "<div class='box cardImg'>" +
-                    "<img src="+ value.picture +">" +
+        if (value.availability == "Available")
+            template += 
+
+            "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12'>" +
+                "<div class='box card'>" +
+                    "<div class='box cardImg'>" +
+                        "<img src="+ value.picture +">" +
+                    "</div>" +
+                    "<div class='info'>" +
+                        "<h4>"+ value.name +"</h4>" +
+                        "<h6>"+ value.productType +"</h6>" +
+                        "<h7>"+ value.availability +"<h7>" +
+                        "<p><span>₱</span>"+ value.price +"</p>" +
+                        "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
+                    "</div>" +
                 "</div>" +
-                "<div class='info'>" +
-                    "<h4>"+ value.name +"</h4>" +
-                    "<h6>"+ value.productType +"</h6>" +
-                    "<h7>"+ value.availabilty +"<h7>" +
-                    "<p><span>₱</span>"+ value.price +"</p>" +
-                    "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
+            "</div>"
+
+        else
+            // Product unavailable, card fades out
+            template +=
+            
+            "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12'>" +
+                "<div class='box card opacity-50'>" +
+                    "<div class='box cardImg'>" +
+                        "<img src="+ value.picture +">" +
+                    "</div>" +
+                    "<div class='info'>" +
+                        "<h4>"+ value.name +"</h4>" +
+                        "<h6>"+ value.productType +"</h6>" +
+                        "<h7>"+ value.availability +"<h7>" +
+                        "<p><span>₱</span>"+ value.price +"</p>" +
+                        "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
+                    "</div>" +
                 "</div>" +
-            "</div>" +
-        "</div>"
+            "</div>"
 
     //     "<div class='card mb-3' style='max-width: 540px;'>" +
     //     "<div class='row no-gutters'>" +
@@ -188,6 +212,8 @@ function displayProducts(data) {
         
     });
     $('#dataDisplay').append(template)
+
+
     // console.log(template)
     // document.getElementById('dataDisplay').innerHTML = template
 }

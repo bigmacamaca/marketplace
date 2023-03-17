@@ -24,7 +24,7 @@ class ProductViewSet(viewsets.ViewSet):
 
     #Add/Register New Product
     def register_product(self, request, *args, **kwargs):
-        # import pdb; pdb.set_trace()
+        import pdb; pdb.set_trace()
         serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(seller=request.user)

@@ -141,6 +141,7 @@ function displayProduct(data) {
                                 "<h4 class='box-title mt-5'>"+ data.data.name +"</h4>" +
                                 "<p class='card-text'><small class='text-muted'> "+ data.data.seller +" </small></p>" +
                                 "<p>"+ data.data.description +"</p>" +
+                                //Edit Product button
                                 "<a href="+base_url+"/market/modify_product/"+data.data.id+" class='btn btn-primary btn-rounded'>Update Product</a>" +
                                 //add to wishlist button
                                 "<button type='button', onclick='wishlist()', value='{{product.id}}', class ='btn btn-primary btn-sm'>Wishlist</button>" +

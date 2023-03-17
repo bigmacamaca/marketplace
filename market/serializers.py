@@ -38,5 +38,6 @@ class UpdateProductSerializer(serializers.ModelSerializer):
             'productType',
             'description',
             'picture',
+            'availability',
             'price',
         )

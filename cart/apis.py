@@ -17,16 +17,23 @@ class CartViewSet(viewsets.ViewSet):
             return None
 
     # Function for adding products to user cart
-    def addto_cart(self, request, *args, **kwargs):
+    # def addto_cart(self, request, *args, **kwargs):
+    def addto_cart(self, request, product_id, *args, **kwargs):
         # import pdb; pdb.set_trace()
 
         cartProduct = Cart.objects.filter(buyer = request.user.id)
-        filtered = cartProduct.filter(product = self.kwargs.get("product_id")).first()
-        print(request.user.id)
+        # filtered = cartProduct.filter(product = self.kwargs.get("product_id")).first()
+        filtered = cartProduct.filter(product = product_id).first()
+        
+        dupe_check =  cartProduct.filter(product = product_id).exists()
+        sold_check = cartProduct.filter(product = product_id, is_sold=False)
+        # print(request.user.id)
 
-        # Check if added cart product is a duplicate
-        if cartProduct.filter(product = self.kwargs.get("product_id")).exists():
+        # Check if added cart product is a duplicate and not checked out
+        # if cartProduct.filter(product = self.kwargs.get("product_id")).exists():
+        if dupe_check and sold_check:
             print("Cart Product is a Duplicate!")
+            # dupe_prompt = "Cart Product is a Duplicate!"
             serializerUpdate = CartUpdateSerializer(filtered, data=request.data, partial=True)
             #Only updates cart quantity
             if serializerUpdate.is_valid():
@@ -47,7 +54,8 @@ class CartViewSet(viewsets.ViewSet):
 
     #Gets cart products
     def get_cart_products(self, request, *args, **kwargs):
-        cartProduct = Cart.objects.all()      
+        # cartProduct = Cart.objects.all()
+        cartProduct = Cart.objects.filter(is_sold=False)          
         if cartProduct:
             cartSerializer = CartSerializer(cartProduct, many=True)
             return Response(cartSerializer.data, status=status.HTTP_200_OK)

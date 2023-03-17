@@ -4,8 +4,9 @@ from cart.models import Cart
 class CartAdmin(admin.ModelAdmin):
     list_display = (
                     'id',
-                    'buyer',
+                    'is_sold',
                     'product',
+                    'buyer',
                     'date_added',
                     'cart_quantity')
 
