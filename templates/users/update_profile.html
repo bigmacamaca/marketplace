@@ -1,28 +1,47 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block page_title %}
+<title>Update Profile</title>
+{% endblock %}
 {% block content %}
-<h1>Update Profile</h1>
 
-<div class='container' style="justify-content: center; align-items: center;">
-    <div class="position-relative">
-        <form id="profileUpdateForm">
-            <div class="mb-3">
-                <label for="InputFirstName" class="form-label">First Name: </label>
-                <input class="form-control" id="first_name" type="text" name="first_name">
-            </div>
-            <div class="mb-3">
-                <label for="InputLastName" class="form-label">Last Name: </label>
-                <input class="form-control" id="last_name" type="text" name="last_name">
-            </div>
-            <div class="mb-3">
-                <label for="InputAvatar" class="form-label">Profile Picture: </label>
-                <input class="form-control" id="avatar" type="file" name="avatar">
-            </div>
-            <input type="submit" name="submit" value="Submit">
-        </form>
+{% if user.is_authenticated %}
+
+    <div class="alert alert-success alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="profileUpdateSuccessAlert">
+        Profile Updated!
     </div>
-</div>
+
+    <div class="alert alert-danger alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="profileUpdateFailAlert">
+        Error: Cannot update profile.
+    </div>
+
+    <div class='container'>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form id="profileUpdateForm" style="border: 1px solid #ccc; padding: 20px; border-radius: 10px; margin-top: 50px;">
+                    <h3 class="text-center mb-4">Update Profile</h3>
+                    <div class="mb-3">
+                        <label for="InputFirstName" class="form-label">First Name: </label>
+                        <input class="form-control" id="first_name" type="text" name="first_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputLastName" class="form-label">Last Name: </label>
+                        <input class="form-control" id="last_name" type="text" name="last_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputAvatar" class="form-label">Profile Picture: </label>
+                        <input class="form-control" id="avatar" type="file" name="avatar">
+                    </div>
+                    <input type="submit" name="submit" value="Submit" class="btn btn-primary mr-2">
+                    <button type="reset" name="reset" class="btn btn-secondary">Reset</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% else %}
+    <h2>Please login to access this page.</h2>
+{% endif %}
 
 <script type="text/javascript" src="{% static 'users/update_profile.js' %}"></script>
 {% endblock %}

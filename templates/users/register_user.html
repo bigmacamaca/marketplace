@@ -1,38 +1,72 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block page_title %}
+<title>Register User</title>
+{% endblock %}
 {% block content %}
-<h1>Sign up</h1>
 
-<div class='container' style="justify-content: center; align-items: center;">
-    <div class="position-relative">
-        <form id="registerUserForm" novalidate>
-            <div class="mb-3">
-                <label for="InputEmail" class="form-label">Email: </label>
-                <input class="form-control" id="email" type="text" name="email">
-            </div>
-            <div class="mb-3">
-                <label for="InputPassword" class="form-label">Password: </label>
-                <input class="form-control" id="password" type="password" name="password">
-            </div>
-            <div class="mb-3">
-                <label for="InputConfirmPassword" class="form-label">Confirm Password: </label>
-                <input class="form-control" id="password2" type="password" name="password2">
-            </div>
-            <div class="mb-3">
-                <label for="InputFirstName" class="form-label">First Name: </label>
-                <input class="form-control" id="first_name" type="text" name="first_name">
-            </div>
-            <div class="mb-3">
-                <label for="InputLastName" class="form-label">Last Name: </label>
-                <input class="form-control" id="last_name" type="text" name="last_name">
-            </div>
-            <div class="mb-3">
-                <label for="InputAvatar" class="form-label">Profile Picture: </label>
-                <input class="form-control" id="avatar" type="file" name="avatar">
-            </div>
-            <input type="submit" name="submit" value="Submit">
-        </form>
+<div class="alert alert-success alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="registerUserAlert">
+    Successfully Registered User!
+</div>
+
+<div class='container'>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form id="registerUserForm" novalidate novalidate style="border: 1px solid #ccc; padding: 20px; border-radius: 10px; margin-top: 50px;">
+                <h3 class="text-center mb-4">Sign Up</h3>
+                <div class="mb-3">
+                    <label for="InputEmail" class="form-label" placeholder="name@example.com">Email: </label>
+                    <input class="form-control" id="email" type="text" name="email">
+                    <p class="text-danger h6" id="emailError"></p>
+                    <div class="invalid-feedback">
+                        This field is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="InputPassword" class="form-label">Password: </label>
+                    <input class="form-control" id="password" type="password" name="password">
+                    <p class="text-danger h6" id="password1Error">  </p>
+                    <div class="invalid-feedback">
+                        This field is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="InputConfirmPassword" class="form-label">Confirm Password: </label>
+                    <input class="form-control" id="password2" type="password" name="password2">
+                    <p class="text-danger h6" id="password2Error">  </p>
+                    <div class="invalid-feedback">
+                        This field is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="InputFirstName" class="form-label" placeholder="Juan">First Name: </label>
+                    <input class="form-control" id="first_name" type="text" name="first_name">
+                    <p class="text-danger h6" id="fnameError">  </p>
+                    <div class="invalid-feedback">
+                        This field is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="InputLastName" class="form-label" placeholder="Tew">Last Name: </label>
+                    <input class="form-control" id="last_name" type="text" name="last_name">
+                    <p class="text-danger h6" id="lnameError">  </p>
+                    <div class="invalid-feedback">
+                        This field is required.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="InputAvatar" class="form-label">Profile Picture: </label>
+                    <input class="form-control" id="avatar" type="file" name="avatar">
+                    <div class="invalid-feedback">
+                        This field is required.
+                    </div>
+                </div>
+                <p class="fst-italic">Password should be 8 characters or more.</p>
+                <p class="fst-italic">Name should not contain Numbers or Special Characters.</p>
+                <input type="submit" name="submit" value="Submit" class="btn btn-primary mr-2">
+                <button type="reset" name="reset" class="btn btn-secondary">Reset</button>
+            </form>
+        </div>
     </div>
 </div>
 

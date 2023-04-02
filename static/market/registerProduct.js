@@ -2,16 +2,82 @@ $(document).ready(function() {
     var base_url = window.location.origin
     $('#registerProductForm').submit(function (event){
         event.preventDefault();
-        console.log('test register product')
         formData = new FormData();
 
         formData.append('name', $('#name').val());
-        formData.append('productType', $('#productType').val());
-        formData.append('availability', $('#availability').val());
         formData.append('quantity', $('#quantity').val());
-        formData.append('description', $('#description').val())
-        formData.append('price', $('#price').val())
-        formData.append('picture', $('#picture')[0].files[0]);
+        formData.append('description', $('#description').val());
+        formData.append('price', $('#price').val());
+
+        
+        // Check if any form fields are empty
+        var emptyFields = false;
+        var invalidFields = false;
+
+        var picture = $("#picture").val();
+
+        // Check if productType field is empty
+        if ($("#productType").val() == null) {
+            // If true, set the value to an empty string
+            formData.append('productType', "");
+        } else {
+            // If false, append the value to the form data
+            formData.append('productType', $('#productType').val());
+        }
+
+        // Check if productType field is empty
+        if ($("#availability").val() == null) {
+            // If true, set the default value
+            formData.append('availability', "Available");
+        } else {
+            // If false, append the value to the form data
+            formData.append('availability', $('#availability').val());
+        }
+
+        if ($('#quantity').val() != "" && $('#quantity').val() <= 0) {
+            console.log("quantity invalid!")
+            $('#quantityError').html('Invalid Number! Minimum quantity should be atleast 1.');
+            invalidFields = true;
+        }
+
+        if ($('#price').val() != "" && $('#price').val() <= 0) {
+            console.log("price invalid!")
+            $('#priceError').html('Invalid Number! Price should be greater than 0.');
+            invalidFields = true;
+        }
+
+        //If picture has value, append to form to be sent to backend
+        if (picture) {
+            formData.append('picture', $('#picture')[0].files[0]);
+        }
+
+        $('#registerProductForm input, #registerProductForm select').each(function() {
+            //If picture and description is empty, prevent error throw
+            //This sends these fields as blank/null to the backend, which will then use its default value
+            if ($(this).attr('name') == 'picture' || $(this).attr('name') == 'description') {
+                return true;
+            }
+
+            //If productType and availability is empty, prevent error throw
+            //This sends these fields as blank/null to the backend, which will then use its default value
+            if ($(this).attr('name') == 'productType' || $(this).attr('name') == 'availability') {
+                return true;
+            }
+            
+            if ($(this).val() == '') {
+                $(this).addClass('is-invalid');
+                $(this).next('.invalid-feedback').show();
+                emptyFields = true;
+            } else {
+                $(this).removeClass('is-invalid');
+                $(this).next('.invalid-feedback').hide();
+            }
+        });
+
+        if (emptyFields || invalidFields) {
+            return false;  // Prevent form submission if any fields are empty
+        }
+        
 
         if (formData) {
                 $.ajax({
@@ -28,10 +94,10 @@ $(document).ready(function() {
                     success: function(response) {
                         window.location = base_url + '/users/home'
                         console.log('product registered!');
-                        console.log(response);
+
                     },
                     error: function() {
-                        console.log('sum ting wong register product');
+                        console.log('Error in register product');
                     }
             });
         }

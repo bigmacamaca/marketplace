@@ -5,13 +5,20 @@
 {% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
-    <h2>Welcome {{user.first_name}}</h2>
+
+    <div class="alert alert-success alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="deleteCartProdAlert">
+        Removed Cart Product!
+    </div>
+
+    <h1>Delete Cart Product</h1>
+    <h3>Are you sure you want to delete cart product?</h3>
+    <a class='btn btn-primary' href="{% url 'cart:delete-cart-prod-confirm' user.id %}" role='button'>Cancel</a>
+    <a class='btn btn-danger' id='deleteCartProduct' role='button'>Confirm Delete</a>
+
 {% else %}
-    <h2>Please login</h2>
+    <h2>Please login to access this page.</h2>
 {% endif %}
-<h1>Delete Cart Product</h1>
-<h3>Are you sure you want to delete cart product?</h3>
-<a class='btn btn-primary' href="{% url 'cart:cart' user.id %}" role='button'>Cancel</a>
-<a class='btn btn-danger' id='deleteCartProduct' role='button'>Confirm Delete</a>
+
+
 <script type="text/javascript" src="{% static 'cart/delete_cart_product.js' %}"></script>
 {% endblock %}

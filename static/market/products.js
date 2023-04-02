@@ -1,19 +1,16 @@
 $(document).ready(function() {
     var base_url = window.location.origin
-    console.log('test')
-    console.log(base_url)
     $.ajax({
         method: 'GET',
         url: base_url + '/market/api/get_products/',
         beforeSend: function() {
-            console.log('before send');
         },
         success: function(data) {
             displayProducts(data);
             console.log('Data get successful');
         },
         error: function() {
-            console.log('sum ting wong get');
+            console.log('Error in get');
         }
     });
 });
@@ -29,9 +26,7 @@ $("#search_products").submit(function(event){
         url: base_url + '/market/api/get_searchResult/',
         data: { keyterm: query, productType: searchType},
         success: function(data){
-            console.log(data)
-            // $("#search-results").empty();
-            // $('#resultHeader').empty();
+
             if(data.length == 0) {
                 $("#search-results").empty();
                 $('#resultHeader').html('No product found!');
@@ -44,7 +39,7 @@ $("#search_products").submit(function(event){
 
         },
         error: function() {
-            console.log("sum ting wong get search results")
+            console.log("Error in get search results")
         }
     })
 
@@ -56,38 +51,19 @@ function displaySearchResults(data) {
     $.each(data, function(index, value) {
 
     
-        console.log("search result" +value.name)
         template += 
 
-        // "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12'>" +
-        //     "<div class='box card'>" +
-        //         "<div class='box cardImg'>" +
-        //             "<img src="+ value.picture +">" +
-        //         "</div>" +
-        //         "<div class='info'>" +
-        //             "<h3>"+ value.name +"</h3>" +
-        //             "<p><span>₱</span>"+ value.price +"</p>" +
-        //             "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
-        //         "</div>" +
-        //     "</div>" +
-        // "</div>"
-
-        "<div class='card mb-3' style='max-width: 540px;'>" +
-        "<div class='row no-gutters'>" +
-            "<div class='col-md-4'>" +
-                "<img src= "+ value.picture +" class='card-img'>" +
+        "<div class='col-md-3'>" +
+        "<div class='card h-100'>" +
+            "<div class='card-header'>"+ value.productType +"</div>" +
+            "<img src="+ value.picture +" class='card-img-top' style='height: 200px; object-fit: cover;'>" +
+            "<div class='card-body flex-grow-1'>" +
+                "<h5 class='card-title text-truncate'>"+ value.name +"</h5>" +
+                "<p class='card-text'>₱"+ value.price +"</p>" +
+                "<a class='btn btn-primary mt-auto' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
             "</div>" +
-            "<div class='col-md-8'>" +
-                "<div class='card-body'>" +
-                    "<h5 class='card-title'>"+ value.name +"</h5>" +
-                    "<p class='card-text'><small class='text-muted'>"+ value.seller +"</small></p>" +
-                    "<p class='card-text'>"+ value.description +"</p>" +
-                    "<p class='card-text'>"+ value.productType +"</p>" +
-                    "<p class='card-text'>"+ value.availability +"</p>" +
-                    "<p class='card-text'>₱"+ value.price +"</p>" +
-                    "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
-
-                "</div>" +
+            "<div class='card-footer'>" +
+                "<small class='text-body-secondary'>"+ value.availability +"</small>" +
             "</div>" +
         "</div>" +
     "</div>"
@@ -97,8 +73,7 @@ function displaySearchResults(data) {
         
     });
     $('#search-results').append(template)
-    // console.log(template)
-    // document.getElementById('dataDisplay').innerHTML = template
+
 }
 
 function getCookie(cname) {
@@ -119,127 +94,53 @@ function getCookie(cname) {
 
 var csrftoken = getCookie('csrftoken');
 
-// //For Logging out user
-// $('#logoutLlink').click(function (){
-//     var base_url = window.location.origin
-//     console.log('Logout test')
-//     $.ajax({
-//         type: 'POST',
-//         beforeSend: function(xhr, settings) {
-//             xhr.setRequestHeader("X-CSRFToken", csrftoken);
-//         },
-//         url: base_url + '/users/api/logout/',
-//         data: {},
-//         success: function(response) {
-//             window.location = base_url + '/books/home'
-//             console.log("Logged Out successfully!");
-//             console.log(response);
-//         },
-//         error: function() {
-//             console.log('sum ting wong logout');
-//         }
-//     });
-// });
-
-
-
 function displayProducts(data) {
     var base_url = window.location.origin
     let template = "";
     let unavailable = "";
     $.each(data, function(index, value) {
         is_available = value.availability
-        console.log(is_available)
-        console.log(value)
 
         if (value.availability == "Available")
             template += 
 
-            "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12'>" +
-                "<div class='box card'>" +
-                    "<div class='box cardImg'>" +
-                        "<img src="+ value.picture +">" +
+            "<div class='col-md-3'>" +
+                "<div class='card h-100'>" +
+                    "<div class='card-header'>"+ value.productType +"</div>" +
+                    "<img src="+ value.picture +" class='card-img-top' style='height: 200px; object-fit: cover;'>" +
+                    "<div class='card-body flex-grow-1'>" +
+                        "<h5 class='card-title text-truncate'>"+ value.name +"</h5>" +
+                        "<p class='card-text'>₱"+ value.price +"</p>" +
+                        "<a class='btn btn-primary mt-auto' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
                     "</div>" +
-                    "<div class='info'>" +
-                        "<h4>"+ value.name +"</h4>" +
-                        "<h6>"+ value.productType +"</h6>" +
-                        "<h7>"+ value.availability +"<h7>" +
-                        "<p><span>₱</span>"+ value.price +"</p>" +
-                        "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
+                    "<div class='card-footer'>" +
+                        "<small class='text-body-secondary'>"+ value.availability +"</small>" +
                     "</div>" +
                 "</div>" +
             "</div>"
+            
 
         else
             // Product unavailable, card fades out
             template +=
-            
-            "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12'>" +
-                "<div class='box card opacity-50'>" +
-                    "<div class='box cardImg'>" +
-                        "<img src="+ value.picture +">" +
-                    "</div>" +
-                    "<div class='info'>" +
-                        "<h4>"+ value.name +"</h4>" +
-                        "<h6>"+ value.productType +"</h6>" +
-                        "<h7>"+ value.availability +"<h7>" +
-                        "<p><span>₱</span>"+ value.price +"</p>" +
-                        "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
-                    "</div>" +
+
+            "<div class='col-md-3'>" +
+            "<div class='card h-100 opacity-50'>" +
+                "<div class='card-header'>"+ value.productType +"</div>" +
+                "<img src="+ value.picture +" class='card-img-top' style='height: 200px; object-fit: cover;'>" +
+                "<div class='card-body flex-grow-1'>" +
+                    "<h5 class='card-title text-truncate'>"+ value.name +"</h5>" +
+                    "<p class='card-text'>₱"+ value.price +"</p>" +
+                    "<a class='btn btn-primary mt-auto' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
                 "</div>" +
-            "</div>"
-
-    //     "<div class='card mb-3' style='max-width: 540px;'>" +
-    //     "<div class='row no-gutters'>" +
-    //         "<div class='col-md-4'>" +
-    //             "<img src= "+ value.picture +" class='card-img'>" +
-    //         "</div>" +
-    //         "<div class='col-md-8'>" +
-    //             "<div class='card-body'>" +
-    //                 "<h5 class='card-title'>"+ value.name +"</h5>" +
-    //                 "<p class='card-text'><small class='text-muted'>"+ value.seller +"</small></p>" +
-    //                 "<p class='card-text'>"+ value.description +"</p>" +
-    //                 "<p class='card-text'>₱"+ value.price +"</p>" +
-    //                 "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
-
-    //             "</div>" +
-    //         "</div>" +
-    //     "</div>" +
-    // "</div>"
-    
-        
+                "<div class='card-footer'>" +
+                    "<small class='text-body-secondary'>"+ value.availability +"</small>" +
+                "</div>" +
+            "</div>" +
+        "</div>"
 
         
     });
     $('#dataDisplay').append(template)
 
-
-    // console.log(template)
-    // document.getElementById('dataDisplay').innerHTML = template
 }
-
-{/* <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-    <div class="box card">
-        <div class="box cardImg">
-            <img src="+ value.picture +">
-        </div>
-        <div class="info">
-            <h3>"+ value.name +"</h3>
-            <p><span>P</span>"+ value.price +"</p>
-            <a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>
-        </div>
-    </div>
-</div> */}
-
-// "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12'>" +
-// "<div class='box card'>" +
-//     "<div class='box cardImg'>"
-//         "<img src="+ value.picture +">" +
-//     "</div>" +
-//     "<div class='info'>"
-//         "<h3>"+ value.name +"</h3>" +
-//         "<p><span>₱</span>"+ value.price +"</p>" +
-//         "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
-//     "</div>" +
-// "</div>" +
-// "</div>" +

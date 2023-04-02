@@ -4,15 +4,17 @@
 <title>Transactions</title>
 {% endblock %}
 {% block content %}
+
 {% if user.is_authenticated %}
+
+    <h1>Transactions</h1>
+    <div id="transactionDisplay" class="row">
+
+    </div>
+
 {% else %}
-    <h2>Please login</h2>
+    <h2>Please login to access this page.</h2>
 {% endif %}
-<h1>Transactions</h1>
-<div id="transactionDisplay" class="row">
-
-</div>
-
 
 
 <script type="text/javascript" src="{% static 'transactions/transactions.js' %}"></script>

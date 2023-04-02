@@ -2,7 +2,8 @@ from django.shortcuts import render
 from rest_framework import viewsets, response, exceptions, permissions
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import permissions
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
+from core.custom_permissions import IsAuthenticatedAndOwner
 
 from users.models import CustomUser
 from users.serializers import *
@@ -12,16 +13,17 @@ from django.contrib.auth import login, logout, authenticate
 
 class UsersViewSet(viewsets.ViewSet):
     parser_classes = (MultiPartParser, FormParser)
+    permission_classes = [AllowAny]
 
     #Gets all user from database
     def get_userList(self, request, *args, **kwargs):
         user = CustomUser.objects.all()
-        serializer = CustomUserSerializer(user, many=True)
+        serializer = SellerListSerializer(user, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     #Registers a user
     def RegisterUser(self, request, *args, **kwargs):
-        # import pdb; pdb.set_trace()
+        import pdb; pdb.set_trace()
         serializer = CustomUserSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -30,7 +32,7 @@ class UsersViewSet(viewsets.ViewSet):
 
         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-        #login user
+    #login user
     def user_login(self, request, *args, **kwargs):
 
         email = request.data.get('email')
@@ -38,22 +40,36 @@ class UsersViewSet(viewsets.ViewSet):
 
         
         user = authenticate(request, username=email, password=password)
-        # import pdb; pdb.set_trace()
         
         if user is not None:
-            # token = user.auth_token.key
             login(request, user)
             print("Logged In Successfuly")
             return Response(status = status.HTTP_200_OK)
 
         else:
             return Response(status = status.HTTP_400_BAD_REQUEST)
-    
+        
+    #Get specific user and its data
+    def get_userDetails(self, request, user_id, *args, **kwargs):
+        # import pdb; pdb.set_trace()
+        user_instance = CustomUser.objects.get(id=user_id)
+        if not user_instance:
+            return Response(
+                {"res": "Object with user id does not exist!"},
+                status = status.HTTP_400_BAD_REQUEST
+            )
+        serializer = CustomUserSerializer(user_instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class LoggedUserViewSet(viewsets.ViewSet):
+    parser_classes = (MultiPartParser, FormParser)
+    permission_classes = [IsAuthenticatedAndOwner]
+
     # change password
     def change_pass(self, request, *args, **kwargs):
-        
-        serializer = ChangePasswordSerializer(data = self.request.data, request = self.request)
         import pdb; pdb.set_trace()
+        serializer = ChangePasswordSerializer(data = self.request.data, request = request)
+        # import pdb; pdb.set_trace()
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -66,34 +82,7 @@ class UsersViewSet(viewsets.ViewSet):
         logout(request)
         return Response('Logged Out Successfully.')
 
-class LoggedUserViewSet(viewsets.ViewSet):
-    parser_classes = (MultiPartParser, FormParser)
-    permission_classes = [IsAuthenticated,]
-
-    #Helper Method that loops through model to find book object with given id's
-    def get_UserObject(self, user_id):
-        # import pdb; pdb.set_trace()
-        try:
-            return CustomUser.objects.get(id=user_id)
-        except CustomUser.DoesNotExist:
-            return None
-
-
-    #Uses helper method to get book specified and get its data
-    def get_userDetails(self, request, user_id, *args, **kwargs):
-        # import pdb; pdb.set_trace()
-        user_instance = self.get_UserObject(user_id)
-        if not user_instance:
-            return Response(
-                {"res": "Object with user id does not exist!"},
-                status = status.HTTP_400_BAD_REQUEST
-            )
-        serializer = CustomUserSerializer(user_instance)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
     def update_profile(self, request, pk=None , *args, **kwargs):
-        import pdb; pdb.set_trace()
         user = self.request.user
         serializer = UpdateProfileSerializer(data = self.request.data, request = self.request, instance = user, partial=True)
         if self.request.user.id == self.kwargs.get('user_id'):

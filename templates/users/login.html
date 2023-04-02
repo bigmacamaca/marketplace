@@ -1,37 +1,50 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block page_title %}
+<title>Login</title>
+{% endblock %}
 {% block content %}
-<div class="container-sm">
-	<div class="row">
-		<div class="col-md-12">
-			<h3 class="text-center">
-				Login
-			</h3>
-			<form role="form" id="loginForm" novalidate>
-				<div class="form-group">
-					 
-					<label for="email">
-						Email address
-					</label>
-					<input type="email" class="form-control" id="email" />
-				</div>
-				<div class="form-group">
-					 
-					<label for="password">
-						Password
-					</label>
-					<input type="password" class="form-control" id="password" />
-				</div>
-				<div class="form-group">
-				<button type="submit" name="login" class="btn btn-primary">
-					Submit
-				</button>
-			</form>
-		</div>
-	</div>
+
+<div class="alert alert-success alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="loginSuccessAlert">
+    Successfully Logged In!
 </div>
 
+<div class="alert alert-danger alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="loginFailAlert">
+    Incorrect Email or Password, please try again.
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form role="form" id="loginForm" novalidate style="border: 1px solid #ccc; padding: 20px; border-radius: 10px; margin-top: 50px;">
+        <h3 class="text-center mb-4">Login</h3>
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input type="email" class="form-control" id="email" placeholder="name@example.com">
+          <p id="invalidEmailAlert" class="text-danger" style="Display: None">
+              Invalid Email!
+          </p>
+          <div class="invalid-feedback">
+            This field is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" required>
+          <div class="invalid-feedback">
+            This field is required.
+          </div>
+          <div class="invalid-feedback" id="invalidPasswordAlert"></div>
+        </div>
+        <div class="form-group text-left mt-4">
+          <button type="submit" name="login" class="btn btn-primary mr-2">Submit</button>
+          <button type="reset" name="reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+  
 
 <script type="text/javascript" src="{% static 'users/login.js' %}"></script>
 {% endblock %}

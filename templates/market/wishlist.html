@@ -5,14 +5,16 @@
 {% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
-    <h2>Welcome {{user.first_name}}</h2>
-{% else %}
-    <h2>Please login</h2>
-{% endif %}
-<h1>Wishlist</h1>
-<div id="wishlistDisplay" class="row">
 
-</div>
+    <h1>Wishlist</h1>
+    <div id="wishlistDisplay" class="row">
+
+    </div>
+
+{% else %}
+    <h2>Please login to access this page.</h2>
+{% endif %}
+
 
 <script type="text/javascript" src="{% static 'market/wishlist.js' %}"></script>
 {% endblock %}

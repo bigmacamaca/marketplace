@@ -4,55 +4,77 @@
 <title>Modify Product</title>
 {% endblock %}
 {% block content %}
-<h1>Modify Product</h1>
-<br><br>
-<div class='container' id="productDetailDisplay" style="justify-content: center; align-items: center;">
-</div>
-<div class='container' style="justify-content: center; align-items: center;">
-    <div class="position-relative">
-        <form id="updateProductForm" id="productFormDisplay">
-            <div class="mb-3">
-                <label for="InputTitle" class="form-label">Name: </label>
-                <input class="form-control" id="name" type="text" name="name">
-            </div>
-            <div class="mb-3">
-                <label for="InputDescription" class="form-label">Description: </label>
-                <input class="form-control" id="description" type="text" name="description">
-            </div>
-            <div class="mb-3">
-                <label for="InputCoverImage" class="form-label">Product Image: </label>
-                <input class="form-control" id="picture" type="file" name="picture">
-            </div>
-            <div class="mb-3">
-                <label for="InputTitle" class="form-label">Price: </label>
-                <input class="form-control" id="price" type="number" step=any name="price">
-            </div>
-            <div class="mb-3">
-                <label for="InputTitle" class="form-label">Quantity: </label>
-                <input class="form-control" id="quantity" type="quantity" step=any name="quantity">
-            </div>
-            <div class="mb-3">
-                <select class="form-select" aria-label="Default Select Example" id="productType" name="productType">
-                    <option selected value="">Select Product Category</option>
-                    <option value="Food">Food</option>
-                    <option value="Apparel">Apparel</option>
-                    <option value="Outdoors">Outdoors</option>
-                    <option value="Tech">Tech</option>
-                    <option value="Memes">Memes</option>
-                    <option value="OTHER">Other</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <select class="form-select" aria-label="Default Select Example" id="availabilty" name="availabilty">
-                    <option selected value="">Product Availabilty</option>
-                    <option value="Available">Available</option>
-                    <option value="Unavailable">Unavailable</option>
-                </select>
-            </div>
-            <input type="submit" name="submit" value="Submit">
-        </form>
+
+{% if user.is_authenticated %}
+
+    <div class="alert alert-success alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="updateProdAlert">
+        Product Updated!
     </div>
-</div>
+
+    <div class="alert alert-danger alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="updateProdErrorAlert">
+        Cannot update product!
+    </div>
+
+    <h1 class='row justify-content-center'>Modify Product</h1>
+
+    <div class='row justify-content-center' id="productDetailDisplay">
+    </div>
+
+    <div class='container'>
+        <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form id="updateProductForm" id="productFormDisplay" novalidate style="border: 1px solid #ccc; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                <div class="mb-3">
+                    <label for="InputTitle" class="form-label">Name: </label>
+                    <input class="form-control" id="name" type="text" name="name">
+                </div>
+                <div class="mb-3">
+                    <label for="InputDescription" class="form-label">Description: </label>
+                    <input class="form-control" id="description" type="text" name="description">
+                </div>
+                <div class="mb-3">
+                    <label for="InputCoverImage" class="form-label">Product Image: </label>
+                    <input class="form-control" id="picture" type="file" name="picture">
+                </div>
+                <div class="mb-3">
+                    <label for="InputTitle" class="form-label">Price: </label>
+                    <input class="form-control" id="price" type="number" step=any name="price">
+                    <p class="text-danger h6" id="priceError">  </p>
+                </div>
+                <div class="mb-3">
+                    <label for="InputTitle" class="form-label">Quantity: </label>
+                    <input class="form-control" id="quantity" type="number" step=any name="quantity">
+                    <p class="text-danger h6" id="quantityError">  </p>
+                </div>
+                <div class="mb-3">
+                    <select class="form-select" aria-label="Default Select Example" id="productType" name="productType">
+                        <option selected value="">Select Product Category</option>
+                        <option value="Food">Food</option>
+                        <option value="Apparel">Apparel</option>
+                        <option value="Outdoors">Outdoors</option>
+                        <option value="Tech">Tech</option>
+                        <option value="Memes">Memes</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <select class="form-select" aria-label="Default Select Example" id="availability" name="availabilty">
+                        <option selected value="">Product Availabilty</option>
+                        <option value="Available">Available</option>
+                        <option value="Unavailable">Unavailable</option>
+                    </select>
+                </div>
+                <input type="submit" name="submit" value="Submit" class="btn btn-primary mr-2">
+                <button type="reset" name="reset" class="btn btn-secondary">Reset</button>
+            </form>
+        </div>
+    </div>
+
+{% else %}
+    <h2>Please login to access this page.</h2>
+{% endif %}
+
+
 
 <script type="text/javascript" src="{% static 'market/modify_product.js' %}"></script>
 {% endblock %}

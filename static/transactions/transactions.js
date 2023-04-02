@@ -1,7 +1,5 @@
 $(document).ready(function() {
     var base_url = window.location.origin
-    console.log('get cart test')
-    console.log(base_url)
     var urlid = window.location.pathname
     var id = urlid.split("/")[3]
     $.ajax({
@@ -13,41 +11,15 @@ $(document).ready(function() {
         success: function(data) {
             displayTransactions(data);
             console.log('transaction get successful');
-            console.log(data);
-
-
-            // $.each(data, function(index, trs) {
-            //     console.log(trs.transaction_buyer)
-            //     console.log(trs.transaction_item)
-            //     if(trs.transaction_buyer == id) {
-            //         $.ajax({
-            //             method: 'GET',
-            //             url : base_url + '/market/api/get_productDetails/'+trs.transaction_item+ '/', 
-            //             beforeSend: function() {
-            //                 console.log('before send');
-            //             },
-            //             success: function(trs) {
-            //                 console.log(trs)
-            //                 displayCart(trs.data);
-                
-            //             },
-            //             error: function(error) {
-            //                 console.log('sum ting wong get trs product detail', error);
-            //             }
-            //         });
-            //     }
-            // })
 
         },
         error: function() {
-            console.log('sum ting wong get cart');
+            console.log('Error in get cart');
         }
     });
 });
 
 function displayTransactions(data) {
-    console.log("displayed")
-    var base_url = window.location.origin
     let template = "";
     $.each(data, function(index, value) {
 
@@ -65,7 +37,6 @@ function displayTransactions(data) {
                     "<p class='card-text'>₱"+ value.subtotal +"</p>" +
                     "<p class='card-text'>Quantity: "+ value.transaction_quantity +"</p>" +
                     "<p class='card-text'>Date of Purchase: "+ value.checkout_date +"</p>" +
-                    // "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+data.id+" role='button'>View</a>" +
                 "</div>" +
             "</div>" +
         "</div>" +

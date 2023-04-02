@@ -2,11 +2,41 @@ $(document).ready(function() {
     var base_url = window.location.origin
     $('#loginForm').submit(function (event){
         event.preventDefault();
-        console.log('loginUser')
         formData = new FormData();
 
         formData.append('email', $('#email').val());
         formData.append('password', $('#password').val());
+
+        // Check if any form fields are empty
+        var emptyFields = false;
+        var invalidFields = false;
+
+        // Regex for email validation
+        var regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/; 
+        var email = $("#email").val();
+
+        
+        if (!regex.test(email) && email !="") {
+            console.log("Invalid email address!");
+            $('#invalidEmailAlert').show();
+            invalidFields = true;
+        }
+
+        $('#loginForm input, #loginForm select').each(function() {
+            // Checks each field if its empty, display error
+            if ($(this).val() == '') {
+                $(this).addClass('is-invalid');
+                $(this).next('.invalid-feedback').show();
+                emptyFields = true;
+            } else {
+                $(this).removeClass('is-invalid');
+                $(this).next('.invalid-feedback').hide();
+            }
+        });
+
+        if (emptyFields || invalidFields) {
+            return false;  // Prevent form submission if any fields are empty
+        }
     
 
         if (formData) {
@@ -22,13 +52,32 @@ $(document).ready(function() {
                     contentType: false,
 
                     success: function(response) {
-                        window.location = base_url + '/users/home'
+
+                        // Show the alert
+                        $("#loginSuccessAlert").show();
+                        // Hide the alert after 2 seconds
+                        setTimeout(function(){
+                            $("#loginSuccessAlert").fadeOut("slow");
+                        }, 1000);
+
+                        //Waits for 1 second, since changing pages wont display the alert at all
+                        setTimeout(function(){
+                            window.location = base_url + '/users/home'
+                        }, 1000);
+
+                        
                         console.log('user logged in!');
-                        console.log(response.token);
-                        // console.log(response);
                     },
                     error: function() {
-                        console.log('sum ting wong login');
+
+                        // Show the alert
+                        $("#loginFailAlert").show();
+                        // Hide the alert after 2 seconds
+                        setTimeout(function(){
+                            $("#loginFailAlert").fadeOut("slow");
+                        }, 1000);
+
+                        console.log('Error in login');
                     }
             });
         }

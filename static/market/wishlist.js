@@ -1,7 +1,5 @@
 $(document).ready(function() {
     var base_url = window.location.origin
-    console.log('test')
-    console.log(base_url)
     var urlid = window.location.pathname
     var id = urlid.split("/")[3]
     $.ajax({
@@ -13,9 +11,12 @@ $(document).ready(function() {
         success: function(data) {
             displayWishlist(data);
             console.log('Data get successful');
+
         },
         error: function() {
-            console.log('sum ting wong get');
+            data = "";
+            displayWishlist(data);
+            console.log('Error in get wishlist');
         }
     });
 });
@@ -23,8 +24,13 @@ $(document).ready(function() {
 function displayWishlist(data) {
     var base_url = window.location.origin
     let template = "";
+
+    if (data == null || data == "") {
+        console.log("Wishlist is empty!")
+        template += "<h3>Wishlist is empty! Add products to wishlist first!</h3>"
+    }
+
     $.each(data, function(index, value) {
-        console.log(value)
         template += 
 
         "<div class='card mb-3' style='max-width: 540px;'>" +
@@ -35,7 +41,7 @@ function displayWishlist(data) {
             "<div class='col-md-8'>" +
                 "<div class='card-body'>" +
                     "<h5 class='card-title'>"+ value.name +"</h5>" +
-                    "<p class='card-text'><small class='text-muted'>"+ value.seller +"</small></p>" +
+                    "<p class='card-text'><small class='text-muted'>"+ value.sName +"</small></p>" +
                     "<p class='card-text'>"+ value.description +"</p>" +
                     "<p class='card-text'>₱"+ value.price +"</p>" +
                     "<a class='btn btn-primary' href="+base_url+"/market/productDetails/"+value.id+" role='button'>View</a>" +
@@ -49,6 +55,4 @@ function displayWishlist(data) {
         
     });
     $('#wishlistDisplay').append(template)
-    console.log(template)
-    // document.getElementById('dataDisplay').innerHTML = template
 }

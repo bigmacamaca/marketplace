@@ -1,7 +1,6 @@
 //For Logging out user
 $('#logoutLink').click(function (){
     var base_url = window.location.origin
-    console.log('Logout test')
     $.ajax({
         type: 'POST',
         beforeSend: function(xhr, settings) {
@@ -10,12 +9,23 @@ $('#logoutLink').click(function (){
         url: base_url + '/users/api/logout/',
         data: {},
         success: function(response) {
-            window.location = base_url + '/users/home'
+
+            // Show the alert
+            $("#logoutAlert").show();
+            // Hide the alert after 2 seconds
+            setTimeout(function(){
+                $("#logoutAlert").fadeOut("slow");
+            }, 1000);
+
+            setTimeout(function(){
+                window.location = base_url + '/users/home'
+            }, 1000);
+
+            
             console.log("Logged Out successfully!");
-            console.log(response);
         },
         error: function() {
-            console.log('sum ting wong logout');
+            console.log('Error in logout');
         }
     });
 });

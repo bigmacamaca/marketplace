@@ -1,14 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block page_title %}
-<title>Product Details</title>
+<title id="ProductTitle"></title>
 {% endblock %}
 {% block content %}
 <h1>Product Details</h1>
 <p hidden id="userID">{{request.user.id}}</p>
 <br><br>
-{% comment %} <div class='container' id="bookDetailDisplay" style="justify-content: center; align-items: center;">
-</div> {% endcomment %}
+
+
+<div class="alert alert-success alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="cartAlert">
+    Added product to cart!
+</div>
+
+<div class="alert alert-success alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="wishSuccessAlert">
+    Wishlisted Product!
+</div>
+
+<div class="alert alert-success alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="unwishSuccessAlert">
+    Removed product from wishlist!
+</div>
+
+<div class="alert alert-success alert-dismissible fade show position-fixed" style="display:none; width: 300px; top: 10px; right: 20px;" role="alert" id="deleteProdAlert">
+    Product Deleted!
+</div>
+
 
 <div class='container' id="productDetailDisplay">
 
@@ -25,10 +41,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="addCartForm">
+                    <form id="addCartForm" novalidate>
                     <div class="form-group">
                         <label for="cart_quantity" class="col-form-label">Quantity:</label>
-                        <input type="number" class="form-control" id="cart_quantity" ></input>
+                        <input type="number" class="form-control" id="cart_quantity"></input>
+                        <p class="text-danger h6" id="cartError">  </p>
                     </div>
 
                 <div class="modal-footer">
@@ -41,14 +58,14 @@
             </div>
         </div>
         {% else %}
-            <p>You must log in to buy and wishlist products.</p>
+            <h5>You must log in to buy and wishlist products.</h5>
         {% endif %}
     </div>
 </div>
 
 <br>
 
-<h3>Reviews</h3>
+{% comment %} <h3>Reviews</h3>
 <div class='container' id="commentsDisplay">
 
 </div>
@@ -68,11 +85,7 @@
         <p>You are not logged in. You must log in to comment and modify own products.</p>
         <a href="{% url 'users:login' %}">Log In</a>
     {% endif %}
-</div>
-
-<br>
-<button type="button" id="deleteButton">Delete Product</button>
-<br>
+</div> {% endcomment %}
 
 
 {% endblock %}
