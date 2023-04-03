@@ -23,7 +23,6 @@ class UsersViewSet(viewsets.ViewSet):
     
     #Registers a user
     def RegisterUser(self, request, *args, **kwargs):
-        import pdb; pdb.set_trace()
         serializer = CustomUserSerializer(data=request.data)
 
         if serializer.is_valid():
@@ -51,7 +50,6 @@ class UsersViewSet(viewsets.ViewSet):
         
     #Get specific user and its data
     def get_userDetails(self, request, user_id, *args, **kwargs):
-        # import pdb; pdb.set_trace()
         user_instance = CustomUser.objects.get(id=user_id)
         if not user_instance:
             return Response(
@@ -67,9 +65,7 @@ class LoggedUserViewSet(viewsets.ViewSet):
 
     # change password
     def change_pass(self, request, *args, **kwargs):
-        import pdb; pdb.set_trace()
         serializer = ChangePasswordSerializer(data = self.request.data, request = request)
-        # import pdb; pdb.set_trace()
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:

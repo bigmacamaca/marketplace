@@ -92,11 +92,26 @@ $(document).ready(function() {
                     contentType: false,
 
                     success: function(response) {
-                        window.location = base_url + '/users/home'
+                        // Show the alert
+                        $("#registerProdAlert").show();
+                        // Hide the alert after 2 seconds
+                        setTimeout(function(){
+                            $("#registerProdAlert").fadeOut("slow");
+                        }, 2000);
+
+                        setTimeout(function(){
+                            window.location = base_url + '/users/home'
+                        }, 2000);
                         console.log('product registered!');
 
                     },
                     error: function() {
+                        // Show the alert
+                        $("#registerProdfFailAlert").show();
+                        // Hide the alert after 2 seconds
+                        setTimeout(function(){
+                            $("#registerProdfFailAlert").fadeOut("slow");
+                        }, 2000);
                         console.log('Error in register product');
                     }
             });

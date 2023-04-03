@@ -104,16 +104,22 @@ $(document).ready(function() {
                         // Hide the alert after 2 seconds
                         setTimeout(function(){
                             $("#registerUserAlert").fadeOut("slow");
-                        }, 1000);
+                        }, 2000);
 
                         setTimeout(function(){
                             window.location = base_url + '/users/home'
-                        }, 1000);
+                        }, 2000);
 
                         console.log('User created!');
 
                     },
                     error: function() {
+                        // Show the alert
+                        $("#registerUserFailAlert").show();
+                        // Hide the alert after 2 seconds
+                        setTimeout(function(){
+                            $("#registerUserFailAlert").fadeOut("slow");
+                        }, 2000);
                         console.log('Error in register user');
                     }
             });
